@@ -8,8 +8,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Main   extends Application{
-	public static Parent ROOT;
-	public static Stage STAGE;
+	//public Parent ROOT;
+	//public Stage STAGE;
 	public static void main(String[] args) {
 		
 		launch(args);
@@ -18,8 +18,8 @@ public class Main   extends Application{
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		STAGE=primaryStage;
-		ROOT = FXMLLoader.load(getClass().getResource("q1.fxml"));
+		//STAGE=primaryStage;
+		Parent ROOT = FXMLLoader.load(getClass().getResource("q1.fxml"));
 		    
 		    
 		    

@@ -1,6 +1,6 @@
 package application;
 
-import java.io.File;
+
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Menu;
@@ -11,9 +11,7 @@ import javafx.stage.DirectoryChooser;
 
 
 public class Handler {
-	 WebView webView = new WebView();
-	 WebEngine engine = webView.getEngine();
-	 LoadFiles loadMod = new LoadFiles();
+	
 	 
 	//this @FXML thing lets java know that. 
 	//we want to set this var to the  value of the FXML node that has the 
@@ -23,10 +21,10 @@ public class Handler {
 	 
 	 
 	@FXML
-	public static VBox vBox;
+	public  VBox vBox;
 	
-	//@FXML
-//	public static Menu mainMenu;
+	@FXML
+	public  Menu mainMenu;
 	
 
 	
@@ -36,22 +34,26 @@ public class Handler {
 		 
 	    DirectoryChooser directoryChooser = new DirectoryChooser();
 	    directoryChooser.setTitle("Open Resource File");
-	    File selectedFile = directoryChooser.showDialog(Main.STAGE);
-		loadMod.loadMod(selectedFile);
+	   // File selectedFile = directoryChooser.showDialog(Main.STAGE);
+		//loadMod.loadMod(selectedFile);
 		
-		  
+	    vBox.getChildren().add(webView);
 		  
 		  
 		
 		
 	   
 	}
-	
+	 WebView webView = new WebView();
+	 WebEngine engine = webView.getEngine();
+	 LoadFiles loadMod = new LoadFiles();
 	
 	@FXML
 	private void initialize() {
-		 vBox.getChildren().add(webView);
+		 
 		 System.out.println("hi");
+		 
+		
 	}
 	
 	
