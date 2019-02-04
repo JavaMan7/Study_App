@@ -2,12 +2,16 @@ package application;
 
 
 
+import java.io.File;
+import java.net.URL;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Menu;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 
 
 public class Handler {
@@ -25,29 +29,41 @@ public class Handler {
 	
 	@FXML
 	public  Menu mainMenu;
-	
+	 WebView webView = new WebView();
+	 WebEngine engine = webView.getEngine();
+	 LoadFiles loadMod = new LoadFiles();
 
 	
 	
 	@FXML
 	private void handleOpenMod() {
-		 
-	    DirectoryChooser directoryChooser = new DirectoryChooser();
-	    directoryChooser.setTitle("Open Resource File");
-	   // File selectedFile = directoryChooser.showDialog(Main.STAGE);
-		//loadMod.loadMod(selectedFile);
-		
-	    vBox.getChildren().add(webView);
+		  
+		vBox.getChildren().add(webView);
+	    FileChooser fileChooser = new FileChooser();
+	    fileChooser.setTitle("Open Resource File");
+	    File selectedFile = fileChooser.showOpenDialog(Main.STAGE);
+	    String path = "C:\\Users\\Jordan\\Documents\\test\\ch1\\q1.html";//selectedFile.getAbsolutePath();
+	    String javaPath = path.replace("\\", "/");
+	    File f = new File(path);
+	    URL url = this.getClass().getResource(path);
+	    
+	    //engine.load(selectedFile.toURI().toString());
+	    engine.load(f.toURI().toString());
+	    
+	    
+	  
 		  
 		  
 		
 		
 	   
 	}
-	 WebView webView = new WebView();
-	 WebEngine engine = webView.getEngine();
-	 LoadFiles loadMod = new LoadFiles();
-	
+	@FXML
+	private void reload() {
+		  
+		engine.reload();
+	   
+	}
 	@FXML
 	private void initialize() {
 		 
