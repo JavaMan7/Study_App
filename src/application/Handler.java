@@ -5,7 +5,18 @@ package application;
 import java.io.File;
 import java.net.URL;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.events.Event;
+import org.w3c.dom.events.EventListener;
+import org.w3c.dom.events.EventTarget;
+
+import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Worker;
+import javafx.concurrent.Worker.State;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -17,6 +28,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.DirectoryChooser;
+import netscape.javascript.JSObject;
 
 
 public class Handler {
@@ -59,7 +71,7 @@ public class Handler {
 	
 	@FXML
 	private void handleOpenMod() {
-		vBox.getChildren().add(webView);
+		
 		
 		
 		 DirectoryChooser  fileChooser = new DirectoryChooser();
@@ -87,7 +99,7 @@ public class Handler {
 				
 				MenuItem menui = new MenuItem(MOD2[j].getName());
 				mainMenu.getMenus().get(1).getItems().add(menui);
-			  ObservableList<MenuItem> menuItem =	mainMenu.getMenus().get(j+1).getItems();
+			  ObservableList<MenuItem> menuItem =	mainMenu.getMenus().get(j+1).getItems();//this need to be pluse one because the first item is the open item 
 			  
 			    File item=MOD2[j];
 			  
@@ -95,14 +107,52 @@ public class Handler {
 				   @Override 
 				   public void handle(ActionEvent e) { 
 					  
-					    System.out.println("world");
+					    //System.out.println("world");
 					    String path = item.getAbsolutePath();
-					    String javaPath = path.replace("\\", "/");
+					   
 					    File f = new File(path);
 					  
 					    
 					    //engine.load(selectedFile.toURI().toString());
 					    engine.load(f.toURI().toString());
+					    EventListener listener = new EventListener() {
+							@Override
+						    public void handleEvent(Event ev) {
+								
+								Document doc = engine.getDocument();
+								Element el = doc.getElementById("Submit");
+								JSObject jdoc = (JSObject) engine.getDocument();
+								jdoc.call("submit()");
+								System.out.println(jdoc.call("getIsRight"));
+								System.out.println(jdoc.call("getAnswer"));
+								System.out.println(jdoc.call("getUserAnswer"));
+								System.out.println(jdoc.call("getPercenDiff"));
+								
+						    }
+						};
+						//System.out.print(engine.getLoadWorker().getState() == engine.getLoadWorker().getState().SUCCEEDED );
+                      
+						
+						 engine.getLoadWorker().stateProperty().addListener(new ChangeListener<Worker.State>() {
+					           
+
+								@Override
+								public void changed(ObservableValue<? extends State> ov, State t, State t1) {
+									if (t1 == Worker.State.SUCCEEDED) {
+					                	Document doc = engine.getDocument();
+										Element el = doc.getElementById("Submit");
+										((EventTarget) el).addEventListener("click", listener, false);
+										 
+					                   
+					                }
+									
+								}
+					    });
+						
+						
+						
+						
+						
 				      
 				   } 
 				};   
@@ -137,9 +187,8 @@ public class Handler {
 	
 	@FXML
 	private void initialize() {
-		 
-		 System.out.println("hi");
-		
+		vBox.getChildren().add(webView);
+				
 		 
 	}
 	
