@@ -1,6 +1,11 @@
 package application;
 
 import java.io.File;
+import java.net.URL;
+
+import javafx.scene.control.Menu;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 
 
 
@@ -12,11 +17,16 @@ public class LoadFiles {
 	public void loadMod(File folder){
 		
 		
-		MOD = folder.listFiles();
 		
 		for (File file : MOD) 
         {
-            System.out.println(file.getName());
+			
+			File f = new File(path);
+			
+			Menu menu = new Menu(file.getName());
+			//getMenus().add(menu);
+          System.out.println(file.getAbsolutePath());
+            
             
             
             
