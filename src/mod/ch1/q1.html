@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Chapter 1 Qestion</h2>
+
+UserAnswer: <input type="number" id="input">
+<p >calulate the speed of an electron coming off a potassium atom. if the photn frequency is <bdi id="phton"></bdi>  </p>
+
+ <script>
+ 
+ 
+ var v = Math.sqrt(2*ek/massOfElectron);
+ var is_right = true;
+ var percenDiff;
+ var UserAnswer;
+ function generate() {
+ 
+       var f = random(5.909881904e14, 25.909881904e14).toExponential(2);
+	   document.getElementById("phton").innerHTML= f;
+	   var h =(6.62607004e-34).toExponential(2);//m2kg/2
+	   var er = f*h;
+	   var eb = 3.7e-19;
+	   var ek = er - eb;
+	   var massOfElectron =9.10938356e-31;
+	   v = Math.sqrt(2*ek/massOfElectron).toExponential(4);
+	   alert(er);
+	   
+       
+}
+generate();
+function submit(){
+UserAnswer = document.getElementById("input").value;
+check(UserAnswer);
+
+
+document.getElementById("Answer").innerHTML= "Answer: "+v;
+document.getElementById("UserAnswer").innerHTML= "UserAnswer: "+UserAnswer;
+document.getElementById("percenDiff").innerHTML= "percenDiff: "+percenDiff;
+
+
+}
+
+function check(ans) {
+     
+    percenDiff = (Math.abs((v - ans))/v)*100;
+	
+	if(Math.abs(percenDiff)<5){
+	
+	         
+			   is_right = true ;
+               
+	
+	}else{
+	        
+	
+	is_right = false;
+	
+	
+	}
+	
+
+  
+}
+function getIsRight(){
+
+
+return is_right;
+}
+
+function  getAnswer(){
+
+
+return v;
+}
+function  getUserAnswer(){
+
+
+return UserAnswer;
+}
+function  getPercenDiff(){
+
+
+return percenDiff;
+}
+
+
+ function random(min, max) {
+  return Math.random() * (max - min) + min;
+}
+ 
+    
+ </script>
+
+<button onclick="generate();" id="generateQ">
+generate.</button>
+<button onclick="submit();" id="submitto">
+Submit.</button>
+
+
+<p id="Answer"></p>
+<p id="UserAnswer"></p>
+<p id="percenDiff"></p>
+
+</body>
+</html> 

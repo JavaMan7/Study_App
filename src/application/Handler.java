@@ -128,8 +128,10 @@ public class Handler {
 								//System.out.println(isRight);
 								//double getAnswer = (double) Double.parseDouble((String) jdoc.call("getAnswer"));
 								//System.out.println(getAnswer);
-								String var = (String) engine.executeScript("var f = 'f';");
+								
 								System.out.println(engine.executeScript("getUserAnswer();"));
+								System.out.println(engine.executeScript("getIsRight();"));
+								System.out.println(engine.executeScript("getPercenDiff();"));
 								//System.out.println(engine.executeScript("getPercenDiff"));
 								
 						    }
