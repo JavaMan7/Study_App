@@ -56,8 +56,8 @@ public class Handler {
 
 
 	
-	public  File[] MOD;
-	public  File[] MOD2;
+	public  File[] MOD;//loads the chapters in to the program
+	public  File[] MOD2;//gets the files in the chapters 
 
 	LoadFiles loadMod = new LoadFiles();
 	@FXML
@@ -77,10 +77,10 @@ public class Handler {
 		 DirectoryChooser  fileChooser = new DirectoryChooser();
 		   fileChooser.setTitle("Open Resource File");
 		    File selectedFile = fileChooser.showDialog(Main.STAGE);
-		   String path = "C:\\Users\\Jordan\\Documents\\test\\ch1\\q1.html";//selectedFile.getAbsolutePath();
-		   String javaPath = path.replace("\\", "/");
+		  // String path = "C:\\Users\\Jordan\\Documents\\test\\ch1\\q1.html";//selectedFile.getAbsolutePath();
+		  // String javaPath = path.replace("\\", "/");
 		    
-		   URL url = this.getClass().getResource(path);
+		   //URL url = this.getClass().getResource(path);
 		    MOD = selectedFile.listFiles();
 		    //engine.load(selectedFile.toURI().toString());
 		    
@@ -118,29 +118,33 @@ public class Handler {
 					    EventListener listener = new EventListener() {
 							@Override
 						    public void handleEvent(Event ev) {
+								System.out.println("hi");
 								
-								Document doc = engine.getDocument();
-								Element el = doc.getElementById("Submit");
-								JSObject jdoc = (JSObject) engine.getDocument();
-								jdoc.call("submit()");
-								System.out.println(jdoc.call("getIsRight"));
-								System.out.println(jdoc.call("getAnswer"));
-								System.out.println(jdoc.call("getUserAnswer"));
-								System.out.println(jdoc.call("getPercenDiff"));
+							
+								JSObject jdoc = (JSObject) engine.getDocument();//loads java script from html 
+								//jdoc.call("submitF",new Object[] {1});//this should call the sumitF method 
+								//boolean isRight = (boolean) jdoc.call("getIsRight");
+								//engine.executeScript("submit");
+								//System.out.println(isRight);
+								//double getAnswer = (double) Double.parseDouble((String) jdoc.call("getAnswer"));
+								//System.out.println(getAnswer);
+								String var = (String) engine.executeScript("var f = 'f';");
+								System.out.println(engine.executeScript("getUserAnswer();"));
+								//System.out.println(engine.executeScript("getPercenDiff"));
 								
 						    }
 						};
 						//System.out.print(engine.getLoadWorker().getState() == engine.getLoadWorker().getState().SUCCEEDED );
                       
 						
-						 engine.getLoadWorker().stateProperty().addListener(new ChangeListener<Worker.State>() {
+						 engine.getLoadWorker().stateProperty().addListener(new ChangeListener<Worker.State>() {//make sure the web page is load before adding listener
 					           
 
 								@Override
 								public void changed(ObservableValue<? extends State> ov, State t, State t1) {
 									if (t1 == Worker.State.SUCCEEDED) {
 					                	Document doc = engine.getDocument();
-										Element el = doc.getElementById("Submit");
+										Element el = doc.getElementById("submitto");
 										((EventTarget) el).addEventListener("click", listener, false);
 										 
 					                   
@@ -187,6 +191,7 @@ public class Handler {
 	
 	@FXML
 	private void initialize() {
+		
 		vBox.getChildren().add(webView);
 				
 		 
