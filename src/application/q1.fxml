@@ -11,7 +11,7 @@
    <children>
       <VBox fx:id="vBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
          <children>
-            <MenuBar fx:id="mainMenu" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefWidth="600.0" VBox.vgrow="ALWAYS">
+            <MenuBar fx:id="mainMenuBar" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefWidth="600.0" VBox.vgrow="ALWAYS">
               <menus>
                 <Menu mnemonicParsing="false" text="Open">
                   <items>
