@@ -3,6 +3,7 @@ package application;
 
 
 import java.io.File;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -65,8 +66,9 @@ public class Handler {
     public static  void handle(ActionEvent e) {
 
 		//path = item.getAbsolutePath();
-
-		File f = new File(path);
+    	String p = path;
+    	System.out.println(p);
+		File f = new File(p);
 		 engine = webView.getEngine();
 		engine.load(f.toURI().toString());// loads the web page
 
@@ -226,17 +228,13 @@ public class Handler {
     	    // private ContextMenu addMenu = new ContextMenu();
     		 public TreeCellText() {
     			// createTextField();
-    	            MenuItem addMenuItem = new MenuItem("Add Employee");
+    	            MenuItem addMenuItem = new MenuItem("Open");
     	            addMenu.getItems().add(addMenuItem);
-    	            addMenuItem.setOnAction(new EventHandler() {
-    	                public void handle(javafx.event.Event event ) {
-    	                    TreeItem newEmployee = 
-    	                        new TreeItem<String>("New Employee");
-    	                            getTreeItem().getChildren().add(newEmployee);
-    	                }
-
-						
-    	            });
+    	            if(getString().contains("||")) { 
+    	            	Handler.path=getString().substring(getString().indexOf("||")+2);
+    	            
+    	             addMenuItem.setOnAction(Handler.eventHandler);
+    	            }
     	        }
     		 
     	      // @Override
@@ -260,24 +258,29 @@ public class Handler {
     	            } else {
     	                if (isEditing()) {
     	                    if (textField != null) {
-    	                        textField.setText(getString());
+
+    	                    	setText(getString());
+    	                    	if(getString().contains("||")) textField.setText(getString().substring(0, getString().indexOf(".")));
     	                    }
     	                    setText(null);
     	                    setGraphic(textField);
     	                } else {
     	                	
-    	                    setText(getString());
+    	                	
+    	                	setText(getString());
+    	                	if(getString().contains("||")) setText(getString().substring(0, getString().indexOf(".")));
     	                    setGraphic(getTreeItem().getGraphic());
     	                    if (
     	                        getTreeItem().isLeaf()&&getTreeItem().getParent()!= null
     	                    ){
     	                        
     	                        
-    	                        System.out.println(getString());
+    	                       // System.out.println(getString().substring(getString().indexOf("||")));
     	                        if(getString().contains("||")) {
-    	                        Handler.path=getString().substring(getString().indexOf("||"));
+    	                        	System.out.println(getString().substring(getString().indexOf("||")+2));
     	                       
-    	                       // super.updateItem( getString().substring(0, getString().indexOf("||")), false);
+    	                        	Handler.path=getString().substring(getString().indexOf("||")+2);
+    	                        //updateItem( getString().substring(0, getString().indexOf("||")), false);
     	                        addMenu.setOnAction(Handler.eventHandler);
     	                        }
     	                        setContextMenu(addMenu);
