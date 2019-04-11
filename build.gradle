@@ -1,0 +1,54 @@
+plugins {
+    // Apply the java-library plugin to add support for Java Library
+    id 'java'
+    id"eclipse"
+}
+compileJava.options.fork = true
+compileJava.options.forkOptions.executable = "C:\\Program Files\\Java\\jdk1.8.0_201\\bin\\javac.exe"
+
+sourceCompatibility = 1.8
+
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+project.ext.lwjglVersion = "2.8.0"
+configurations {
+    natives
+}
+
+
+
+
+
+dependencies {
+  
+  
+}
+
+sourceSets{
+main.java.srcDir 'src/main'
+
+
+}
+jar{
+
+
+
+from configurations.compile.collect{zipTree it}
+manifest {
+        attributes 'Main-Class': 'application.Main'
+    }
+
+
+}
+
+task fatJar(type: Jar) {
+	
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+

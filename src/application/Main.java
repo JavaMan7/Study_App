@@ -28,9 +28,9 @@ public class Main   extends Application{
 	public void start(Stage primaryStage) throws RuntimeException {
 		try {
 		
-		System.out.println("hi");
+		
 		STAGE=primaryStage;
-		System.out.println("hi");
+		
 		 try {
 			ROOT = FXMLLoader.load(getClass().getResource("q1.fxml"));
 		} catch (IOException e) {
@@ -38,8 +38,7 @@ public class Main   extends Application{
 			e.printStackTrace();
 		}
 		    
-		System.out.println("hi");
-		    
+		
 		    
 	        primaryStage.setTitle("Study app");
 	        primaryStage.setScene(new Scene(ROOT));

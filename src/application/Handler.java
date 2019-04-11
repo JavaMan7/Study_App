@@ -1,7 +1,9 @@
 package application;
 
 import java.io.File;
-
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -37,11 +39,11 @@ public class Handler {
 
     public WebView webView = new WebView();// a javafx node 
     public WebEngine engine = webView.getEngine();// the web engine
-
+           XMLReadWright XML  = new XMLReadWright();
    
-    public File[] MOD;// loads the chapters in to the program
-    public File[] MOD2;// gets the files in the chapters
-
+    public List <File> MOD;// loads the chapters in to the program
+    public List <File> MOD2;// gets the files in the chapters
+    public List <String> backList;
     LoadFiles loadMod = new LoadFiles();
     @FXML
     public VBox vBox;
@@ -56,29 +58,49 @@ public class Handler {
 	DirectoryChooser fileChooser = new DirectoryChooser();
 	fileChooser.setTitle("Open Resource File");
 	File selectedFile = fileChooser.showDialog(Main.STAGE);//opens the file selector
+	
+	//for (int i = 0; i < mainMenuBar.getMenus().size(); i++) mainMenuBar.getMenus().remove(i);//remove old tabs 
+	//mainMenuBar.getMenus().clear();
+	if(MOD!=null)for (int i = 0; i <MOD.size(); i++) MOD.remove(i);
+	if(MOD2!=null)for (int i = 0; i <MOD2.size(); i++) MOD2.remove(i);
+	
+	
+	MOD= new LinkedList<File>(Arrays.asList(selectedFile.listFiles()));
+	
+	for(int i=0;i<MOD.size();i++) {
+	    
+		if(!MOD.get(i).isDirectory())MOD.remove(i);
+	    
+	    
+	    
+	}
+       System.out.print(MOD);
+       
+    
+    
+	for (int i = 0; i < MOD.size(); i++) { // list over all the files in the directory selected 
 
-	MOD = selectedFile.listFiles();
-
-	for (int i = 0; i < MOD.length; i++) { // list over all the files in the directory selected 
-
-	    Menu menu = new Menu(MOD[i].getName());//make a new menu with name of file  
+	    Menu menu = new Menu(MOD.get(i).getName());//make a new menu with name of file  
 
 	    mainMenuBar.getMenus().add(menu);//adds it to the menu bar so it show up
 
-	    MOD2 = MOD[i].listFiles();//gets all the file in the sub directory
+	    MOD2 = new LinkedList<File>(Arrays.asList(MOD.get(i).listFiles()));//gets all the file in the sub directory
 
-	    for (int j = 0; j < MOD2.length; j++) {
-
-		MenuItem menui = new MenuItem(MOD2[j].getName());// Make a new menu item with the name of the file in
+	    for (int j = 0; j < MOD2.size(); j++)if(!MOD2.get(j).getName().endsWith(".html"))MOD2.remove(j);
+	    
+	    
+	    for (int j = 0; j < MOD2.size(); j++) {
+	    	
+		MenuItem menui = new MenuItem(MOD2.get(j).getName());// Make a new menu item with the name of the file in
 								 
 
-		mainMenuBar.getMenus().get(1).getItems().add(menui);//
+		mainMenuBar.getMenus().get(i+1).getItems().add(menui);//this need to be +1
+	      // one because the first
+	      // item is the open item
 
-		ObservableList<MenuItem> menuItem = mainMenuBar.getMenus().get(j + 1).getItems();// this need to be +1
-											      // one because the first
-											      // item is the open item
-
-		File item = MOD2[j];//this here because MOD2 can't be dircely accessed in handle
+		ObservableList<MenuItem> menuItem = mainMenuBar.getMenus().get(i+1).getItems();
+		
+		File item = MOD2.get(j);//this here because MOD2 can't be dircely accessed in handle
 
 		EventHandler<ActionEvent> eventHandler = new EventHandler<ActionEvent>() {
 		    @Override
@@ -108,10 +130,11 @@ public class Handler {
 
 				JSObject jdoc = (JSObject) engine.getDocument();// loads java script from html
 
-				System.out.println(engine.executeScript("getUserAnswer();"));
+				System.out.println(engine.executeScript("getUserAnswer();").toString());
 				System.out.println(engine.executeScript("getIsRight();"));
 				System.out.println(engine.executeScript("getPercenDiff();"));
-
+				XML.logAnswer("jordan", engine.executeScript("getUserAnswer();").toString(), engine.executeScript("getPercenDiff();").toString(),engine.executeScript("getIsRight();").toString(), selectedFile.getAbsolutePath()+"\\data.xml");
+                                     
 			    }
 			};
 			
@@ -122,7 +145,7 @@ public class Handler {
 			 
 
 			    @Override
-			    public void changed(ObservableValue<? extends State> ov, State t, State t1) {// ativats if the web page loads or is loading
+			    public void changed(ObservableValue<? extends State> ov, State t, State t1) {// Activates if the web page loads or is loading
 				if (t1 == Worker.State.SUCCEEDED) {
 
 				    Document doc = engine.getDocument();//gets the web site 

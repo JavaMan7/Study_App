@@ -1,0 +1,20 @@
+.menu-bar{
+  list-style-type: none;
+   -fx-margin: 0;
+   -fx-padding: 0;
+   -fx-width: 200px;
+   -fx-background-color: #343638;
+}
+
+.menu {
+   -fx-display: block;
+   -fx-color: #000;
+   -fx-padding: 8px 16px;
+   -fx-text-decoration: none;
+}
+
+/* Change the link color on hover */
+.vbox  .menu-bar .menu:focused {
+   -fx-background-color: #00ff00;
+   -fx-color: white;
+}
